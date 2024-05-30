@@ -1,6 +1,6 @@
 from decouple import config
 
-DATABASE_URI = config("DATABASE_URI",default="sqlite:///sqlite.db")
+DATABASE_URI = config("DATABASE_URI")
 if DATABASE_URI.startswith("postgres://"):
     DATABASE_URI = DATABASE_URI.replace("postgres://","postgresql://",1)
 
@@ -8,7 +8,7 @@ class Config(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
-    SECRET_KEY = config("SECRET_KEY",default="abcdefghijkl@12345")
+    SECRET_KEY = config("SECRET_KEY")
     SQLALCHEMY_DATABASE_URI = DATABASE_URI
     SQLALCHEMY_TRACK_MODIFICATION = False
     BCRYPT_LOG_ROUND = 13
@@ -26,7 +26,7 @@ class TestingConfig(Config):
     DEBUG = True
     TESTING = True
     WTF_CSRF_ENABLED = False
-    SQLALCHEMY_DATABASE_URI = "sqlite:///testdb.db"
+    SQLALCHEMY_DATABASE_URI = "sqlite:///testdata.db"
     BCRYPT_LOG_ROUND = 1
 
 class ProductionConfig(Config):

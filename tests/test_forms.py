@@ -20,7 +20,7 @@ class TestRegisterForm(BaseTestCase):
     def test_validate_email_already_registered(self):
         # Ensure user can't register when a duplicate email is used
         form = RegisterForm(
-            email="ad@min.com", password="admin_user", confirm="admin_user"
+            email="shiv@gmail.com", password="admin_user", confirm="admin_user"
         )
         self.assertFalse(form.validate())
 
@@ -28,7 +28,7 @@ class TestRegisterForm(BaseTestCase):
 class TestLoginForm(BaseTestCase):
     def test_validate_success_login_form(self):
         # Ensure correct data validates.
-        form = LoginForm(email="ad@min.com", password="admin_user")
+        form = LoginForm(email="shiv@gmail.com", password="admin_user")
         self.assertTrue(form.validate())
 
     def test_validate_invalid_email_format(self):

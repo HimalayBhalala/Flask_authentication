@@ -1,5 +1,5 @@
 from flask.cli import FlaskGroup
-from src import app, db
+from src import app,db
 from src.accounts.models import User
 import unittest
 import os
@@ -21,10 +21,8 @@ def test():
     else:
         return 1
 
-if __name__ == "__main__":
-    cli()
-
 import getpass
+from sqlalchemy.exc import SQLAlchemyError
 
 @cli.command("create_admin")
 def create_admin():
@@ -36,8 +34,17 @@ def create_admin():
         print("Passwords don't match")
         return 1
     try:
-        user = User(email=email, password=password, is_admin=True)
+        user = User(email=email, password=password, is_admin=1)
         db.session.add(user)
         db.session.commit()
-    except Exception:
-        print("Couldn't create admin user.")
+        print("Admin user created successfully.")
+    except SQLAlchemyError as e:
+        print("Couldn't create admin user:", str(e))
+        db.session.rollback()
+    except Exception as e:
+        print("An unexpected error occurred:", str(e))
+        db.session.rollback()
+
+
+if __name__ == "__main__":
+    cli()

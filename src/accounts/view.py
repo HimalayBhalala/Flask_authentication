@@ -14,7 +14,7 @@ def register():
         flash("You are already registered.", "info")
         return redirect(url_for("core.home"))
     form = RegisterForm(request.form)
-    if form.validate_on_submit():
+    if request.method == "POST":
         user = User(email=form.email.data, password=form.password.data)
         db.session.add(user)
         db.session.commit()
@@ -32,7 +32,7 @@ def login():
         flash("You are already logged in.", "info")
         return redirect(url_for("core.home"))
     form = LoginForm(request.form)
-    if form.validate_on_submit():
+    if request.method == "POST":
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, request.form["password"]):
             login_user(user)
@@ -40,7 +40,7 @@ def login():
         else:
             flash("Invalid email and/or password.", "danger")
             return render_template("accounts/login.html", form=form)
-    return render_template("accounts/register.html", form=form)
+    return render_template("accounts/login.html", form=form)
 
 @accounts_bp.route("/logout")
 @login_required

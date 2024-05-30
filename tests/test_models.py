@@ -31,7 +31,7 @@ class TestUser(BaseTestCase):
             self.client.get("/logout", follow_redirects=True)
             self.client.post(
                 "/login",
-                data=dict(email="ad@min.com", password="admin_user"),
+                data=dict(email="shiv@gmail.com", password="admin_user"),
                 follow_redirects=True,
             )
             self.assertTrue(current_user.id == 1)
@@ -42,15 +42,15 @@ class TestUser(BaseTestCase):
             self.client.get("/logout", follow_redirects=True)
             self.client.post(
                 "/login",
-                data=dict(email="ad@min.com", password="admin_user"),
+                data=dict(email="shiv@gmail.com", password="admin_user"),
                 follow_redirects=True,
             )
-            user = User.query.filter_by(email="ad@min.com").first()
+            user = User.query.filter_by(email="shiv@gmail.com").first()
             self.assertIsInstance(user.created_on, datetime.datetime)
 
     def test_check_password(self):
         # Ensure given password is correct after unhashing
-        user = User.query.filter_by(email="ad@min.com").first()
+        user = User.query.filter_by(email="shiv@gmail.com").first()
         self.assertTrue(bcrypt.check_password_hash(user.password, "admin_user"))
         self.assertFalse(bcrypt.check_password_hash(user.password, "foobar"))
 
@@ -60,7 +60,7 @@ class TestUser(BaseTestCase):
             self.client.get("/logout", follow_redirects=True)
             response = self.client.post(
                 "/login",
-                data=dict(email="ad@min.com", password="foo_bar"),
+                data=dict(email="shiv@gmail.com", password="foo_bar"),
                 follow_redirects=True,
             )
         self.assertIn(b"Invalid email and/or password.", response.data)
